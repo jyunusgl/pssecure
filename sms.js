@@ -14,7 +14,7 @@ router.use(function timeLog (req, res, next) {
 
 // Enroll SMS factor
 router.get('/enroll', function (req, res) {
-    var userId = "00u3fvwq1uagzWPia5d7"
+    var userId = "00u3fymt22RCkapDe5d7"
     var enrollSMS = {
         method: 'post',
         data: JSON.stringify({
