@@ -6,23 +6,39 @@ var bodyParser = require('body-parser')
 router.use(bodyParser.urlencoded({extended:false}))
 router.use(bodyParser.json())
 
+// Get User
 router.get('/:username', function(req, res){
+    let username = req.params.username
     let getUser = {
-        method: 'post',
-        data: JSON.stringify({
-            "factorType":"sms",
-            "provider":"OKTA",
-            "profile":{
-                "phoneNumber":"+1-647-673-7441"
-            }
-        }),
+        method: 'get',
         headers: {
             "Accept":"application/json",
             "Content-Type":"application/json",
             "Authorization":`SSWS ${process.env.API_TOKEN}`
         },
-        url: `https://${process.env.OKTA_ORG}/api/v1/users/${userId}/factors`
+        url: `https://${process.env.OKTA_ORG}/api/v1/users?q=${username}`
     }
+    axios(getUser)
+    .then(response => res.json(response.data))
+    .catch(error => res.send(error))
 })
+
+// Get User ID from Okta
+router.get('/id/:username', function(req, res){
+    let username = req.params.username
+    let getUser = {
+        method: 'get',
+        headers: {
+            "Accept":"application/json",
+            "Content-Type":"application/json",
+            "Authorization":`SSWS ${process.env.API_TOKEN}`
+        },
+        url: `https://${process.env.OKTA_ORG}/api/v1/users?q=${username}`
+    }
+    axios(getUser)
+    .then(response => res.send(response.data[0].id))
+    .catch(error => res.send(error))
+})
+
 
 module.exports = router

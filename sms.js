@@ -13,8 +13,8 @@ router.use(function timeLog (req, res, next) {
 })
 
 // Enroll SMS factor
-router.get('/enroll', function (req, res) {
-    var userId = "00u3fymt22RCkapDe5d7"
+router.get('/enroll/:userID', function (req, res) {
+    var userId = req.params.userID
     var enrollSMS = {
         method: 'post',
         data: JSON.stringify({
@@ -43,11 +43,11 @@ router.get('/enroll', function (req, res) {
 })
 
 // Verify SMS factor
-router.get('/verify', function (req, res) {
+router.get('/verify/:userID', function (req, res) {
     var factorId = req.query.factorid
     var passCode = req.query.passcode
     console.log(req.query)
-    var userId = "00u3fvwq1uagzWPia5d7"
+    var userId = req.params.userID
     var enrollSMS = {
         method: 'post',
         data: JSON.stringify({
